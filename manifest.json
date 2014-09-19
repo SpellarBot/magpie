@@ -8,5 +8,11 @@
             "scripts": ["js/background.js"]
         }
     },
-    "icons": { "16": "calculator-16.png", "128": "calculator-128.png" }
+    "icons": {
+        "16": "quicklink-16.png",
+        "128": "quicklink-128.png"
+    },
+    "permissions": [
+        "https://*.mediasilo.com/"
+    ]
 }

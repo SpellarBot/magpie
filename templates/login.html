@@ -1,19 +1,21 @@
 <top-nav on-close="closeWindow()"></top-nav>
+<div class="container">
+    <section id="login">
+        <form role="form">
+            <div class="form-group">
+                <label for="loginHostName">Account/Hostname</label>
+                <input type="text" class="form-control" id="loginHostName" ng-model="user.hostname">
+            </div>
+            <div class="form-group">
+                <label for="loginUserName">Username</label>
+                <input type="text" class="form-control" id="loginUserName" ng-model="user.name">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" class="form-control" id="loginPassword" ng-model="user.password">
+            </div>
+            <button type="submit" class="btn btn-primary" ng-click="login(user)">Login</button>
+        </form>
+    </section>
+</div>
 
-<section id="login">
-    <form role="form">
-        <div class="form-group">
-            <label for="loginHostName">Hostname</label>
-            <input type="text" class="form-control" id="loginHostName">
-        </div>
-        <div class="form-group">
-            <label for="loginUserName">Username</label>
-            <input type="text" class="form-control" id="loginUserName">
-        </div>
-        <div class="form-group">
-            <label for="loginPassword">Password</label>
-            <input type="password" class="form-control" id="loginPassword">
-        </div>
-        <button type="submit" class="btn btn-default">Login</button>
-    </form>
-</section>

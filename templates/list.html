@@ -1,2 +1,21 @@
 <top-nav on-close="closeWindow()"></top-nav>
-
+<div class="page-wrapper">
+    <div class="list-wrapper">
+        <div ng-repeat="ql in quicklinks" class="ql-block">
+            <div class="thumb">
+                <img ng-src="{{ql.thumb}}">
+            </div>
+            <h4>{{ql.title}}</h4>
+            <p><elapased-time timestamp="ql.created"></elapased-time> -
+                <ng-pluralize
+                    count="ql.assetIds.length"
+                    when="{'0': '0 Files',
+                           'one': '1 File',
+                           'other': '{} Files'}">
+                </ng-pluralize>
+            </p>
+        </div>
+    </div>
+    <div class="push"></div>
+</div>
+<drop-zone></drop-zone>
