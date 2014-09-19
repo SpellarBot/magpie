@@ -1,28 +1,47 @@
+/**
+ * Main Angular Application File for the MediaSilo
+ * Quicklink.IO Chrome Application
+ */
+
+var qLinkIOApp = angular.module('qLinkIOApp', ['ngRoute'])
+    .config(function($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'templates/list.html',
+                controller: 'ListController'
+            })
+            .when('/login', {
+                templateUrl: 'templates/login.html',
+                controller: 'LoginController'
+            })
+            .otherwise({redirectTo: '/'});
+    })
+
+    .controller('ListController', function($scope, $location) {
+        $scope.closeWindow = function () {
+            window.close();
+        };
 
 
-var qLinkIOApp = angular.module('qLinkIOApp', []);
+        $location.path( "/login" );
+    })
 
 
+    .controller('LoginController', function($scope) {
 
-function AppController($scope, $http) {
+        $scope.closeWindow = function () {
+            window.close();
+        };
 
-
-}
-
-
-AppController.$inject = ['$scope', '$http'];
+    });
 
 
 // Init setup and attach event listeners.
-document.addEventListener('DOMContentLoaded', function(e) {
-    var closeButton = document.querySelector('#close-button');
-    closeButton.addEventListener('click', function(e) {
-        window.close();
-    });
+/*document.addEventListener('DOMContentLoaded', function(e) {
 
     // FILESYSTEM SUPPORT --------------------------------------------------------
     window.webkitRequestFileSystem(TEMPORARY, 1024 * 1024, function(localFs) {
         fs = localFs;
     }, onError);
     // ---------------------------------------------------------------------------
-});
+});*/
