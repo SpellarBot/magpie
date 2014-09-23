@@ -60,7 +60,12 @@ angular.module('qLinkIOApp')
             templateUrl: 'templates/dropZone.html',
             restrict: 'E',
             link: function(scope, element, attrs) {
-
+                var dnd = new DnDFileController('#dropzone', function(files) {
+                    var $scope = angular.element(this).scope();
+                    Util.toArray(files).forEach(function(file, i) {
+                        console.log(file);
+                    });
+                });
             }
         }
     });

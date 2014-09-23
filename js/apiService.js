@@ -3,9 +3,9 @@
 angular.module('qLinkIOApp')
     .factory('ApiService', function ($http, $q, PHOENIX_URL) {
 
-        var authSuccess = false;
-        var authHostname = "cloudcompanion";
-        var authString = "dXNlcjpNZWRpYVNpbDA=";
+        var authSuccess = true;
+        var authHostname = "supertorio";
+        var authString = "c3VwZXJ0b3JpbzpBYmNkMTIzNA==";
         var userData = {};
         var assetCache = [];
 
