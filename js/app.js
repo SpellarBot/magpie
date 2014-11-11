@@ -39,16 +39,9 @@ var qLinkIOApp = angular.module('qLinkIOApp', ['ngRoute'])
                 }
             }
         });
-
-
-
-
-
     })
 
-
     .controller('LoginController', function($scope, $location, ApiService) {
-
         $scope.closeWindow = function () {
             window.close();
         };
@@ -63,14 +56,3 @@ var qLinkIOApp = angular.module('qLinkIOApp', ['ngRoute'])
         };
 
     });
-
-
-// Init setup and attach event listeners.
-/*document.addEventListener('DOMContentLoaded', function(e) {
-
-    // FILESYSTEM SUPPORT --------------------------------------------------------
-    window.webkitRequestFileSystem(TEMPORARY, 1024 * 1024, function(localFs) {
-        fs = localFs;
-    }, onError);
-    // ---------------------------------------------------------------------------
-});*/

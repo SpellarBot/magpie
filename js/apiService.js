@@ -4,15 +4,17 @@ angular.module('qLinkIOApp')
     .factory('ApiService', function ($http, $q, PHOENIX_URL) {
 
         var authSuccess = true;
-        var authHostname = "supertorio";
-        var authString = "c3VwZXJ0b3JpbzpBYmNkMTIzNA==";
+        var authHostname = "";
+        var authString = "";
         var userData = {};
         var assetCache = [];
+
 
         var setCredentials = function(hostname, username, password) {
             authHostname = hostname;
             authString = utf8_to_b64(username+":"+password);
         };
+
 
         var getUser = function() {
             var deferred = $q.defer();
@@ -30,30 +32,22 @@ angular.module('qLinkIOApp')
             return deferred.promise;
         };
 
+
         var getAsset = function(assetId) {
             var deferred = $q.defer();
 
-           /* if (!assetId.length) deferred.reject();
-
-            var prevFetchedAsset;
-            if (prevFetchedAsset = checkAssetCache(assetId)) {
-                deferred.resolve(prevFetchedAsset);
-            }
-            else {*/
-                $http.get(PHOENIX_URL+"assets/"+assetId, getCallConfig()).then(
-                    function(result) {
-                        //assetCache.push(result.data);
-                        console.log(result);
-                        deferred.resolve(result.data);
-                    },
-                    function() {
-                        deferred.reject();
-                    }
-                );
-            //}
+            $http.get(PHOENIX_URL+"assets/"+assetId, getCallConfig()).then(
+                function(result) {
+                    deferred.resolve(result.data);
+                },
+                function() {
+                    deferred.reject();
+                }
+            );
 
             return deferred.promise;
         };
+
 
         var getAssetThumbnail = function(assetId) {
             var deferred = $q.defer();
@@ -65,6 +59,7 @@ angular.module('qLinkIOApp')
             });
             return deferred.promise;
         };
+
 
         var getQuicklinks = function(page) {
             var deferred = $q.defer();
@@ -81,9 +76,11 @@ angular.module('qLinkIOApp')
             return deferred.promise;
         };
 
+
         var isAuthorized = function() {
             return authSuccess;
         };
+
 
         var checkAssetCache = function(assetId) {
             var result = assetCache.filter(function(v) {
@@ -91,6 +88,7 @@ angular.module('qLinkIOApp')
             })[0];
             return result !== undefined ? result : false;
         };
+
 
         var getCallConfig = function() {
             return {
@@ -102,9 +100,11 @@ angular.module('qLinkIOApp')
             };
         };
 
+
         var utf8_to_b64 = function( str ) {
             return window.btoa(unescape(encodeURIComponent( str )));
         };
+
 
         return {
             setCredentials      : setCredentials,
@@ -116,4 +116,3 @@ angular.module('qLinkIOApp')
         }
 
     });
-
