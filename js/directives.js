@@ -28,8 +28,8 @@ angular.module('qLinkIOApp')
                     var now = new Date();
                     var newVal = "";
                     var elapsedTime = now.getTime()-value;
-
                     var msInHour = 3600000;
+                    
                     if (elapsedTime > msInHour*24) {
                         var days = Math.ceil(elapsedTime / (msInHour*24));
                         if (days > 1) {
