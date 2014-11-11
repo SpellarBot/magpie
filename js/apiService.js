@@ -21,7 +21,7 @@ angular.module('qLinkIOApp')
                 function(result) {
                     authSuccess = true;
                     userData = result;
-                    deferred.resolve();
+                    deferred.resolve(userData);
                 },
                 function() {
                     deferred.reject();
@@ -33,35 +33,35 @@ angular.module('qLinkIOApp')
         var getAsset = function(assetId) {
             var deferred = $q.defer();
 
-           /* if (!assetId.length) deferred.reject();
-
-            var prevFetchedAsset;
-            if (prevFetchedAsset = checkAssetCache(assetId)) {
-                deferred.resolve(prevFetchedAsset);
-            }
-            else {*/
-                $http.get(PHOENIX_URL+"assets/"+assetId, getCallConfig()).then(
-                    function(result) {
-                        //assetCache.push(result.data);
-                        console.log(result);
-                        deferred.resolve(result.data);
-                    },
-                    function() {
-                        deferred.reject();
-                    }
-                );
-            //}
+            $http.get(PHOENIX_URL+"assets/"+assetId, getCallConfig()).then(
+                function(result) {
+                    deferred.resolve(result.data);
+                },
+                function() {
+                    deferred.reject();
+                }
+            );
 
             return deferred.promise;
         };
 
-        var getAssetThumbnail = function(assetId) {
+        var getThumbnailForAsset = function(assetId, width, height) {
             var deferred = $q.defer();
+            var thumb = "img/no-thumb.png";
             getAsset(assetId).then(function(assetData){
-                console.log(assetData);
-                deferred.resolve("img/no-thumb.png");
+                var proxyFound = false;
+                angular.forEach(assetData.derivatives, function(derivative, index) {
+                    if (derivative.type === 'proxy') {
+                        thumb = "https://preview.mediasilo.com/?thumbnail="+width+"x"+height+"&src="+derivative.posterFrame;
+                        proxyFound = true;
+                        deferred.resolve(thumb);
+                    }
+                });
+                if (!proxyFound) {
+                    deferred.resolve(thumb);
+                }
             }, function(){
-                deferred.resolve("img/no-thumb.png");
+                deferred.resolve(thumb);
             });
             return deferred.promise;
         };
@@ -102,17 +102,20 @@ angular.module('qLinkIOApp')
             };
         };
 
+
+
+
         var utf8_to_b64 = function( str ) {
             return window.btoa(unescape(encodeURIComponent( str )));
         };
 
         return {
-            setCredentials      : setCredentials,
-            getUser             : getUser,
-            getQuicklinks       : getQuicklinks,
-            getAsset            : getAsset,
-            getAssetThumbnail   : getAssetThumbnail,
-            isAuthorized        : isAuthorized
+            setCredentials          : setCredentials,
+            getUser                 : getUser,
+            getQuicklinks           : getQuicklinks,
+            getAsset                : getAsset,
+            getThumbnailForAsset    : getThumbnailForAsset,
+            isAuthorized            : isAuthorized
         }
 
     });

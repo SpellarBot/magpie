@@ -4,6 +4,7 @@
  */
 
 var qLinkIOApp = angular.module('qLinkIOApp', ['ngRoute'])
+
     .config(function($routeProvider, $compileProvider) {
         $routeProvider
             .when('/', {
@@ -16,12 +17,23 @@ var qLinkIOApp = angular.module('qLinkIOApp', ['ngRoute'])
             })
             .otherwise({redirectTo: '/'});
 
-        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|chrome-extension):|data:image\//);
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|chrome-extension):|data:image\//);
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|blob|chrome-extension):/);
     })
 
-    .controller('ListController', function($scope, $location, ApiService) {
+    .controller('ListController', function($scope, $location, ApiService, UploadService) {
         $scope.closeWindow = function () {
             window.close();
+        };
+
+        $scope.fileUploadInit = function(file) {
+            UploadService.uploadFile(file).then(function() {
+                console.log('finished');
+            }, function(err) {
+                console.log('failed: ', err)
+            }, function(progress) {
+                console.log('progress: ', progress)
+            });
         };
 
         if (!ApiService.isAuthorized()) {
@@ -36,13 +48,34 @@ var qLinkIOApp = angular.module('qLinkIOApp', ['ngRoute'])
             for(var i = 0; i < $scope.quicklinks.length; i++) {
                 if (!$scope.quicklinks[i].hasOwnProperty('thumb')) {
                     $scope.quicklinks[i].thumb = "img/no-thumb.png";
+                    loadQuicklinkThumb($scope.quicklinks[i]);
                 }
             }
         });
 
+        var loadQuicklinkThumb = function(quicklinkObj) {
+            if (quicklinkObj.assetIds.length) {
+                var firstAssetId = quicklinkObj.assetIds[0];
+                ApiService.getThumbnailForAsset(firstAssetId, 105, 75).then(function(thumbUrl){
+
+                    loadImage(thumbUrl, function(blob_uri, requested_uri) {
+                        quicklinkObj.thumb = blob_uri;
+                    });
+
+                });
+            }
+        };
 
 
-
+        var loadImage = function(uri, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = function() {
+                callback(window.URL.createObjectURL(xhr.response), uri);
+            }
+            xhr.open('GET', uri, true);
+            xhr.send();
+        };
 
     })
 

@@ -1,20 +1,3 @@
-/*
- Copyright 2012 Google Inc.
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- Author: Eric Bidelman (ericbidelman@chromium.org)
- */
 
 var Util = Util || {};
 
@@ -80,7 +63,7 @@ Util.unstringify = function(paramStr) {
 
 /**
  * Utility for formatting a date string.
- * @param {string} msg The date in UTC format. Example: 2010-04-01T08:00:00Z.
+ * @param {string} dateStr The date in UTC format. Example: 2010-04-01T08:00:00Z.
  * @return {string} The date formated as mm/dd/yy. Example: 04/01/10.
  */
 Util.formatDate = function(dateStr) {
@@ -130,7 +113,7 @@ Util.sortByDate = function(a, b) {
         return -1;
     }
     return 0;
-}
+};
 
 Util.sortByTitle = function(a, b) {
     if (a.title < b.title) {
@@ -140,4 +123,33 @@ Util.sortByTitle = function(a, b) {
         return -1;
     }
     return 0;
-}
+};
+
+Util.createUUID = function() {
+    // http://www.ietf.org/rfc/rfc4122.txt
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+    var uuid = s.join("");
+    return uuid;
+};
+
+Util.cleanFileName = function(file_name) {
+    if (encodeURIComponent(file_name) != file_name) {
+        var str_nospaces = file_name.replace(/ /g, '_');
+        if (str_nospaces != encodeURIComponent(str_nospaces)) {
+            var file_extension = file_name.split('.').pop().toLowerCase();
+            var str_random = Date.now();
+            return str_random + '.' + file_extension;
+        } else {
+            return encodeURIComponent(str_nospaces);
+        }
+    } else {
+        return encodeURIComponent(file_name);
+    }
+};

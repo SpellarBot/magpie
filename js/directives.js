@@ -61,9 +61,8 @@ angular.module('qLinkIOApp')
             restrict: 'E',
             link: function(scope, element, attrs) {
                 var dnd = new DnDFileController('#dropzone', function(files) {
-                    var $scope = angular.element(this).scope();
                     Util.toArray(files).forEach(function(file, i) {
-                        console.log(file);
+                        scope.fileUploadInit(file);
                     });
                 });
             }

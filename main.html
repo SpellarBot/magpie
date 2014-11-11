@@ -1,22 +1,24 @@
-<html data-ng-app="qLinkIOApp" ng-csp="">
+<html data-ng-app="qLinkIOApp" ng-csp>
 <head>
     <meta charset="utf-8" />
     <title>MediaSilo Quicklink.IO</title>
-    <link rel="stylesheet" media="all" href="css/bootstrap.css">
+    <link rel="stylesheet" media="all" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" media="all" href="css/main.css">
     <base target="_blank">
 </head>
 <body>
 <div ng-view></div>
-<script src="js/vendor/angular.min.js"></script>
-<script src="js/vendor/angular-route.min.js"></script>
-<script src="js/vendor/aws-sdk.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="js/vendor/aws-sdk-custom.js"></script>
 <script src="js/util.js"></script>
 <script src="js/app.js"></script>
 <script src="js/config.js"></script>
 <script src="js/directives.js"></script>
 <script src="js/apiService.js"></script>
+<script src="js/uploadService.js"></script>
 <script src="js/dnd.js"></script>
+<script src="js/model/fileUpload.js"></script>
 
 </body>
 </html>

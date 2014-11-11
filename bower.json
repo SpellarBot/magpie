@@ -1,0 +1,22 @@
+{
+  "name": "Magpie",
+  "version": "0.0.1",
+  "homepage": "https://github.com/supertorio/magpie",
+  "authors": [
+    "Tori Holmes-Kirk <tori@mediasilo.com>"
+  ],
+  "description": "MediaSilo Chrome App",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.26",
+    "angular-route": "~1.2.26",
+    "bootstrap": "~3.2.0"
+  }
+}
